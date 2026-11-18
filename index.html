@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rika Ipsum</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦄</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7ff;
+    --surface: #ffffff;
+    --surface-2: #f6f2fd;
+    --text: #261f3a;
+    --muted: #6b6385;
+    --border: #e7e0f3;
+    --accent: #7446f0;
+    --on-accent: #ffffff;
+    --accent-soft: #efe8ff;
+    --glow-1: rgba(255, 140, 200, .20);
+    --glow-2: rgba(120, 180, 255, .20);
+    --glow-3: rgba(255, 214, 90, .16);
+    --shadow: 0 1px 2px rgba(38, 31, 58, .05), 0 10px 30px rgba(38, 31, 58, .06);
+    /* szivárvány */
+    --r1: #ff4f7b;
+    --r2: #ff9a3c;
+    --r3: #ffd23f;
+    --r4: #34d399;
+    --r5: #3fa9f5;
+    --r6: #8b5cf6;
+    --rainbow: linear-gradient(90deg, var(--r1), var(--r2), var(--r3), var(--r4), var(--r5), var(--r6));
+    --on-rainbow: #1d1530;
+    --selection: rgba(255, 210, 63, .45);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #13101d;
+      --surface: #1c182b;
+      --surface-2: #221d34;
+      --text: #eeeaf8;
+      --muted: #a59fbd;
+      --border: #322b4a;
+      --accent: #b49cff;
+      --on-accent: #1a1430;
+      --accent-soft: #2e2650;
+      --glow-1: rgba(255, 110, 190, .10);
+      --glow-2: rgba(100, 160, 255, .10);
+      --glow-3: rgba(80, 220, 160, .07);
+      --selection: rgba(255, 210, 63, .30);
+      --shadow: none;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #13101d;
+    --surface: #1c182b;
+    --surface-2: #221d34;
+    --text: #eeeaf8;
+    --muted: #a59fbd;
+    --border: #322b4a;
+    --accent: #b49cff;
+    --on-accent: #1a1430;
+    --accent-soft: #2e2650;
+    --glow-1: rgba(255, 110, 190, .10);
+    --glow-2: rgba(100, 160, 255, .10);
+    --glow-3: rgba(80, 220, 160, .07);
+    --selection: rgba(255, 210, 63, .30);
+    --shadow: none;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(900px 420px at 0% -10%, var(--glow-1), transparent 70%),
+      radial-gradient(900px 420px at 100% -10%, var(--glow-2), transparent 70%),
+      radial-gradient(700px 380px at 50% 0%, var(--glow-3), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap {
+    max-width: 880px; margin: 0 auto;
+    padding-block: 44px 56px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  /* Header */
+  .head { text-align: center; margin-bottom: 26px; }
+  .brand {
+    margin: 0;
+    font-family: "Fredoka", ui-rounded, "Segoe UI", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: clamp(46px, 10vw, 80px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    padding-bottom: 4px;
+    background: linear-gradient(90deg, #ff4f9a, #ff8a3d 20%, #f2b705 38%, #22b573 58%, #2f9bf0 78%, #8b5cf6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .sub { margin: 6px 0 0; color: var(--muted); font-size: 17px; }
+
+  /* Generator tabs */
+  .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .tab {
+    display: inline-flex; align-items: center; gap: 7px;
+    height: 38px; padding: 0 14px;
+    border-radius: 999px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--text);
+    font: inherit; font-size: 15px; font-weight: 500;
+    cursor: pointer;
+    transition: border-color .15s, background-color .15s;
+  }
+  .tab:nth-child(6n+1) { --c: var(--r1); }
+  .tab:nth-child(6n+2) { --c: var(--r2); }
+  .tab:nth-child(6n+3) { --c: var(--r3); }
+  .tab:nth-child(6n+4) { --c: var(--r4); }
+  .tab:nth-child(6n+5) { --c: var(--r5); }
+  .tab:nth-child(6n+6) { --c: var(--r6); }
+  .tab:hover { border-color: var(--c); }
+  .tab[aria-pressed="true"] {
+    border: 2px solid transparent; padding: 0 13px; font-weight: 600;
+    background: linear-gradient(var(--surface), var(--surface)) padding-box, var(--rainbow) border-box;
+  }
+  .tab .ti { font-size: 16px; line-height: 1; }
+  .desc { text-align: center; color: var(--muted); margin: 16px 0 20px; min-height: 1.5em; }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); }
+  .toolbar { padding: 14px 16px; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+
+  .count {
+    width: 96px; height: 40px; padding: 0 10px;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--surface-2); color: var(--text);
+    font: inherit; font-size: 16px; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .seg { display: inline-flex; gap: 2px; padding: 3px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; }
+  .seg button {
+    appearance: none; border: 0; background: transparent; color: var(--muted);
+    height: 32px; padding: 0 12px; border-radius: 7px;
+    font: inherit; font-size: 15px; cursor: pointer;
+  }
+  .seg button:hover { color: var(--text); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+  .actions { margin-left: auto; display: flex; gap: 8px; }
+  .btn {
+    height: 40px; padding: 0 16px; border-radius: 10px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+    font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary {
+    border: 0; color: var(--on-rainbow); font-weight: 700;
+    background: linear-gradient(90deg, var(--r1), var(--r2), var(--r3), var(--r4), var(--r5), var(--r6), var(--r1)) 0 0 / 200% 100%;
+    transition: background-position .6s ease;
+  }
+  .btn.primary:hover { background-position: 100% 0; }
+
+  .opts { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); gap: 8px 22px; color: var(--muted); font-size: 15px; }
+  .opts label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+  .opts input { accent-color: var(--accent); width: 16px; height: 16px; margin: 0; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Output */
+  .result { margin-top: 16px; overflow: hidden; }
+  .result::before { content: ""; display: block; height: 5px; background: var(--rainbow); }
+
+  /* Szivárvány díszek */
+  .topbar { height: 6px; background: var(--rainbow); }
+  .arc {
+    width: 104px; height: 52px; margin: 0 auto 10px;
+    background: radial-gradient(circle 52px at 50% 100%,
+      transparent 41.5%,
+      var(--r6) 42.5% 51.2%, var(--r5) 52.2% 60.9%, var(--r4) 61.9% 70.6%,
+      var(--r3) 71.6% 80.3%, var(--r2) 81.3% 90%, var(--r1) 91% 98.5%,
+      transparent 99.5%);
+  }
+  ::selection { background: var(--selection); }
+  @media (prefers-reduced-motion: reduce) { .btn.primary { transition: none; } }
+  .output {
+    padding: 26px 30px; min-height: 180px;
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    font-size: 18px; line-height: 1.75;
+    white-space: pre-wrap; overflow-wrap: anywhere;
+  }
+  .output.code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 14.5px; line-height: 1.7; }
+  .foot {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;
+    padding: 11px 30px; border-top: 1px solid var(--border);
+    background: var(--surface-2); color: var(--muted);
+    font-size: 14px; font-variant-numeric: tabular-nums;
+  }
+  .credit { display: grid; gap: 4px; text-align: center; color: var(--muted); font-size: 14px; margin-top: 28px; }
+  .credit::before { content: ""; justify-self: center; width: 72px; height: 4px; margin-bottom: 8px; border-radius: 4px; background: var(--rainbow); }
+  .credit p { margin: 0; }
+  .credit .pali { opacity: .7; letter-spacing: .02em; }
+
+  @media (max-width: 640px) {
+    .wrap { padding-top: 32px; }
+    .tab { height: 36px; padding: 0 12px; font-size: 14px; }
+    .tab[aria-pressed="true"] { padding: 0 11px; }
+    .count { order: 1; width: 84px; }
+    .actions { order: 2; }
+    .seg { order: 3; width: 100%; }
+    .seg button { flex: 1; padding: 0 6px; font-size: 14px; }
+    .output { padding: 20px 18px; font-size: 17px; }
+    .foot { padding: 10px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="topbar" aria-hidden="true"></div>
+<div class="wrap" lang="hu">
+  <header class="head">
+    <div class="arc" aria-hidden="true"></div>
+    <h1 class="brand">Rika Ipsum</h1>
+    <p class="sub" id="sub">🦄 zagyva szöveggenerátor</p>
+  </header>
+
+  <nav class="tabs" id="tabs" aria-label="Generátorok"></nav>
+  <p class="desc" id="desc"></p>
+
+  <section class="card toolbar" aria-label="Beállítások">
+    <div class="row">
+      <input id="count" class="count" type="number" inputmode="numeric" min="1" value="3" aria-label="Mennyiség">
+      <div class="seg" id="units" role="group" aria-label="Egység">
+        <button type="button" data-unit="p">bekezdés</button>
+        <button type="button" data-unit="s">mondat</button>
+        <button type="button" data-unit="w">szó</button>
+        <button type="button" data-unit="c">karakter</button>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn primary" id="gen">↻ Új szöveg</button>
+        <button type="button" class="btn" id="copy">Másolás</button>
+      </div>
+    </div>
+    <div class="row opts">
+      <label><input type="checkbox" id="opener" checked> <span id="openerLabel"></span></label>
+      <label><input type="checkbox" id="emoji"> Emojik</label>
+      <label><input type="checkbox" id="html"> &lt;p&gt; tagekkel</label>
+    </div>
+  </section>
+
+  <section class="card result" aria-label="Generált szöveg">
+    <div class="output" id="out"></div>
+    <div class="foot"><span id="stats"></span><span id="hint"></span></div>
+  </section>
+
+  <footer class="credit">
+    <p>Készült 2021-ben · felújítva 2026-ban</p>
+    <p class="pali">rika akir · kék sas kék · görög</p>
+  </footer>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  /* ---------- helpers ---------- */
+  const $ = s => document.querySelector(s);
+  const rnd = n => Math.floor(Math.random() * n);
+  const pick = a => a[rnd(a.length)];
+  const chance = p => Math.random() < p;
+  const between = (a, b) => a + rnd(b - a + 1);
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const rev = s => Array.from(s).reverse().join('');
+  const mirror = w => w + rev(w).slice(1);              // rika -> rikakir
+  const revWords = s => s.replace(/\p{L}+/gu, rev);     // betűnként visszafelé, írásjelek maradnak
+  const L = s => s.split('|');
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  const segmenter = (typeof Intl !== 'undefined' && Intl.Segmenter) ? new Intl.Segmenter('hu', { granularity: 'grapheme' }) : null;
+  const glyphs = s => segmenter ? Array.from(segmenter.segment(s), x => x.segment) : Array.from(s);
+  const charLen = s => glyphs(s).length;
+
+  /* ---------- szólisták ---------- */
+  const ME = L('rika|raisin|mazsola|unicorn|sun|moon|stars|rainbow|blue|glitter|cat|natasa|luna|kira|sura|syl');
+  const PALI = L('level|radar|kayak|noon|civic|rotor|refer|madam|tenet|wow|solos|stats|racecar|redder|reviver|deed|peep|sees|anna|bob|pop|eve|aha|lol|mom|dad');
+  const MIRRORED = L('rika|luna|kira|sura|syl|sun|moon|stars|blue|cat').map(mirror);
+  const PALI_POOL = PALI.concat(MIRRORED);
+  const PALI_SENTENCES = [
+    'Was it a cat I saw?', 'Rats live on no evil star.', 'Never odd or even.', 'Step on no pets.',
+    'A Santa at NASA.', 'Taco cat.', 'No lemon, no melon.', 'Too hot to hoot.'
+  ];
+  const LATIN_FILL = L('ipsum|dolor|sit|amet|elit|sed|tempor|magna|aliqua|et|in|ad|est|ut|velit|esse|nisi');
+  const SUFFIX = L('us|um|ae|is|ia|ibus|orum');
+  const latinize = w => w.replace(/[aeiou]$/, '') + pick(SUFFIX);
+
+  const LOREM = ('lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore ' +
+    'magna aliqua enim ad minim veniam quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat duis aute ' +
+    'irure in reprehenderit voluptate velit esse cillum eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident ' +
+    'sunt culpa qui officia deserunt mollit anim id est laborum').split(' ');
+
+  const MARVEL = L('Avengers|Iron Man|Tony Stark|Thor|Mjolnir|Loki|Hulk|Bruce Banner|Black Widow|Hawkeye|Captain America|' +
+    'Steve Rogers|Spider-Man|Peter Parker|Wakanda|Black Panther|vibranium|Thanos|Infinity Gauntlet|Infinity Stone|' +
+    'Doctor Strange|Wanda|Vision|Groot|Rocket|Gamora|Star-Lord|Nick Fury|S.H.I.E.L.D.|Asgard|Bifrost|Ant-Man|Wasp|' +
+    'Captain Marvel|Deadpool|Wolverine|X-Men|Magneto|Hydra|Ultron|Jarvis|Shuri|Okoye|Valkyrie|multiverse|Quinjet|' +
+    'tesseract|arc reactor|web-shooter|Daily Bugle|shawarma|snap|shield|hammer|armor|superhero|quantum realm|Stark Tower|Sanctum');
+  const MARVEL_LINES = ['I am Groot.', 'Avengers, assemble!', 'Excelsior!', 'Wakanda forever!', 'Hulk smash!'];
+
+  const DC = L('Batman|Bruce Wayne|Gotham|Batmobile|Batcave|Alfred|Robin|Nightwing|Batgirl|Joker|Harley Quinn|Catwoman|' +
+    'Penguin|Riddler|Two-Face|Bane|Arkham|Bat-Signal|utility belt|Superman|Clark Kent|Krypton|kryptonite|Metropolis|' +
+    'Daily Planet|Lois Lane|Lex Luthor|Fortress of Solitude|Supergirl|Krypto|Wonder Woman|Diana|Themyscira|lasso of truth|' +
+    'Aquaman|Atlantis|Flash|Barry Allen|Speed Force|Green Lantern|power ring|Cyborg|Shazam|Martian Manhunter|' +
+    'Justice League|Darkseid|Apokolips|cape|bat|rooftop|midnight|superhero|Hall of Justice|Watchtower');
+  const DC_LINES = ["I'm Batman.", 'Shazam!', 'Up, up and away!', 'Why so serious?', 'To the Batmobile!'];
+
+  const MEOW = L('meow|miaow|mew|mrrp|prrr|purr|purring|kitty|kitten|cat|paw|toe beans|whiskers|box|couch|sunbeam|' +
+    'nap|catnap|snooze|catnip|zoomies|ears|tail|scratching post|yarn|yarn ball|tuna|fluff|fluffy|soft|fur|tomcat|tabby|' +
+    'stretch|yawn|head boop|windowsill|bird watching|food bowl|4 am|knocks the glass off|keyboard|laptop|knead|' +
+    'biscuits|hiss|tummy|belly rub|trap|loaf|blep|mlem|chonk|floof|slow blink');
+  const MEOW_LINES = ['Was it a cat I saw?', 'Taco cat.', 'Mrrp?', 'Mew.', 'Prrrrrr.', 'Meow meow meow!'];
+
+  const CSILLAM = L('glitter|sparkle|shimmer|glimmer|twinkle|unicorn|rainbow|sun|moon|stars|starlight|stardust|' +
+    'moonbeam|sunbeam|blue|opal|pearl|aurora|comet|galaxy|nebula|pastel|fairy|fairy dust|magic|dream|glow|gleam|shine|' +
+    'sparkly|dreamy|cosmic|moonstone|mermaid|cloud|marshmallow|cotton candy|pink|lilac|holographic|iridescent|sequin');
+
+  const MAZSOLA = L('mazsola|raisin|raisins|sun-dried|dried grape|grape|sultana|golden raisin|currant|cinnamon|' +
+    'sweet|wrinkly|handful|oatmeal|muesli|granola|cookie|bun|brioche|fig|date|rum-raisin|pudding|vanilla|walnut|almond|' +
+    'pinch|snack|scone|fruitcake|trail mix|bread pudding|cinnamon roll|cereal|breakfast|plump|chewy|sunshine|vineyard');
+
+  const KALOZ = L('arrr|yo-ho-ho|ahoy|treasure|captain|parrot|peg leg|eyepatch|anchor|deck|rum|ship|sail|island|map|' +
+    'doubloon|matey|pirate|cannon|cutlass|treasure chest|wave|sea|kraken|plank|Jolly Roger|landlubber|rowboat|wind|' +
+    'compass|mast|cabin|gunpowder|gold coin|message in a bottle|buccaneer|galleon|crow\'s nest|scallywag|booty|' +
+    'spyglass|first mate|bilge|starboard|port side');
+  const KALOZ_LINES = ['Arrr!', 'Yo-ho-ho!', 'Land ho!', 'All hands on deck!', 'Man overboard!', 'Shiver me timbers!'];
+
+  const STREETFOOD = L('taco|burrito|kebab|falafel|shawarma|gyro|hot dog|burger|smash burger|fries|loaded fries|' +
+    'churros|bao|dumplings|ramen|pad thai|satay|banh mi|arepa|empanada|pizza slice|food truck|night market|napkins|' +
+    'hot sauce|sriracha|ketchup|mustard|garlic sauce|pickles|onion rings|nachos|quesadilla|crepe|waffle|corn dog|' +
+    'pretzel|donut|bubble tea|lemonade|kimchi|gyoza|takoyaki|spring roll|samosa|fish and chips|poutine|halloumi|wrap|' +
+    'flatbread|grilled cheese|brisket|pulled pork|slider|street corn|extra cheese|cash only|paper tray|late night|' +
+    'long queue|spicy|crispy|messy|sticky fingers');
+
+  const MEETING = L('synergy|KPI|OKR|deliverable|roadmap|stakeholder|alignment|holistic|agile|sprint|standup|' +
+    'deadline|ASAP|win-win|proactive|ecosystem|paradigm shift|low-hanging fruit|bandwidth|circle back|deep dive|' +
+    'scalable|disruptive|touch base|Q4|onboarding|leverage|best practice|benchmark|pivot|go-live|value-add|' +
+    'core business|takeaway|action item|follow-up|blocker|scope|buy-in|big picture|mindset|workshop|brainstorming|' +
+    'meeting|calendar invite|reply all|retro|backlog|ticket|slide deck|EOD|sync|efficiency');
+  const MEETING_LINES = ["Let's take this offline.", 'This could have been an email.', "Let's circle back.",
+    "Great question, I'll follow up.", 'Can you see my screen?', 'Sorry, I was on mute.'];
+
+  /* ---------- szógenerátorok ---------- */
+  const mixer = (list, fillP) => () => chance(fillP) ? pick(LATIN_FILL) : pick(list);
+
+  function rikaWord() {
+    const r = Math.random();
+    if (r < 0.56) { const w = pick(ME); return chance(0.16) ? latinize(w) : w; }
+    if (r < 0.70) return pick(PALI);
+    if (r < 0.79) return pick(MIRRORED);
+    return pick(LATIN_FILL);
+  }
+  function rikaSpecial() {
+    if (chance(0.5)) return pick(PALI_SENTENCES);
+    // pl. "Luna sas anul." — oda-vissza ugyanaz
+    const w = pick(L('rika|luna|kira|sura|syl|moon|stars|sun|cat'));
+    return cap(w) + ' ' + pick(L('level|radar|noon|civic|kayak|wow')) + ' ' + rev(w) + '.';
+  }
+
+  // Visszafelé: a natasa kimarad, mert fordítva nem túl szerencsés ("asatan").
+  function akirWord() {
+    let w;
+    do { w = rikaWord(); } while (w.startsWith('natas'));
+    return rev(w);
+  }
+
+  // Palindrom: minden szó palindrom ÉS a szósorrend szimmetrikus => az egész mondat betűre palindrom.
+  function paliSentence() {
+    if (chance(0.12)) return pick(PALI_SENTENCES);
+    const left = Array.from({ length: between(1, 3) }, () => pick(PALI_POOL));
+    const mid = chance(0.6) ? [pick(PALI_POOL)] : [];
+    return cap([...left, ...mid, ...left.slice().reverse()].join(' ')) + pick(['.', '.', '.', '!', '?']);
+  }
+  function paliWords(n, withOpener) {
+    const half = Math.floor(n / 2);
+    const left = withOpener ? ['level', 'rikakir'].slice(0, half) : [];
+    while (left.length < half) left.push(pick(PALI_POOL));
+    const mid = n % 2 ? [pick(PALI_POOL)] : [];
+    return [...left, ...mid, ...left.slice().reverse()];
+  }
+
+  const RIKA_OPENER = 'Rika ipsum mazsola sit amet, unicornis glitter adipiscing luna.';
+
+  const GENERATORS = [
+    { id: 'rika', name: 'Rika Ipsum', icon: '🦄',
+      desc: 'A fő zagyvaság: rika, mazsola, unikornis, nap, hold, csillagok és palindromok egy tálban.',
+      opener: RIKA_OPENER, word: rikaWord, special: rikaSpecial, specialP: 0.09,
+      emoji: L('🦄|🍇|🌈|✨|🌙|⭐|☀️|💙|🐱|🪞') },
+    { id: 'lorem', name: 'Lorem Ipsum', icon: '📜',
+      desc: 'A jó öreg, hagyományos lorem ipsum, ha komolynak kell látszani.',
+      opener: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', word: () => pick(LOREM),
+      emoji: L('📜|🏛️|✒️') },
+    { id: 'marvel', name: 'Marvel Ipsum', icon: '🦸',
+      desc: 'Vibránium, Wakanda és egy kis Groot. Excelsior!',
+      opener: 'Marvel ipsum vibranium sit amet, Wakanda adipiscing elit.', word: mixer(MARVEL, 0.18),
+      special: () => pick(MARVEL_LINES), specialP: 0.06, emoji: L('🦸|🛡️|⚡|🕷️|💎|🔨|🌌') },
+    { id: 'dc', name: 'DC Ipsum', icon: '🦇',
+      desc: 'Gotham éjszakái, kriptonit és egy denevér a háztetőn.',
+      opener: 'DC ipsum Gotham sit amet, kryptonite adipiscing elit.', word: mixer(DC, 0.18),
+      special: () => pick(DC_LINES), specialP: 0.06, emoji: L('🦇|🦸|⚡|🌃|💚|🃏|🌊') },
+    { id: 'meow', name: 'Meow Ipsum', icon: '🐱',
+      desc: 'Dorombolás, napfolt, babtalpak és hajnali négykor zoomies.',
+      opener: 'Meow ipsum purr sit amet, whiskers adipiscing elit.', word: mixer(MEOW, 0.10), len: [4, 11],
+      special: () => pick(MEOW_LINES), specialP: 0.10, emoji: L('🐱|🐾|😺|🐈|🧶|🐟|😸') },
+    { id: 'palindrom', name: 'Palindrom Ipsum', icon: '🪞',
+      desc: 'Minden mondat oda-vissza ugyanaz, betűre pontosan: „Noon rikakir noon.”',
+      opener: 'Level rikakir noon rikakir level.', sentence: paliSentence, words: paliWords, para: [4, 7], symmetric: true,
+      emoji: L('🪞|🔁|↔️') },
+    { id: 'csillam', name: 'Csillám Ipsum', icon: '✨',
+      desc: 'Nap, hold, csillagok, szivárvány és extra glitter.',
+      opener: 'Glitter ipsum sparkle sit amet, unicorn rainbow elit.', word: mixer(CSILLAM, 0.12),
+      special: () => 'Rats live on no evil star.', specialP: 0.03, emoji: L('✨|🌈|🦄|🌙|⭐|☀️|💫|🌟|💙|🪐') },
+    { id: 'mazsola', name: 'Mazsola Ipsum', icon: '🍇',
+      desc: 'Napon aszalt raisin-szöveg mazsolarajongóknak.',
+      opener: 'Mazsola ipsum raisin sit amet, sun-dried cinnamon elit.', word: mixer(MAZSOLA, 0.15),
+      emoji: L('🍇|🥐|🍪|🥣|☀️') },
+    { id: 'akir', name: 'Akir Muspi', icon: '🔁',
+      desc: 'A Rika ipsum visszafelé. A palindromok észre sem veszik.',
+      opener: cap(revWords(RIKA_OPENER.toLowerCase())), word: akirWord,
+      emoji: L('🔁|🪞|🦄|🍇') },
+    { id: 'kaloz', name: 'Kalóz Ipsum', icon: '🏴‍☠️',
+      desc: 'Arrr! Kincs, rum és egy nagyon hangos papagáj.',
+      opener: 'Arrr ipsum dolor sit amet, doubloon adipiscing elit.', word: mixer(KALOZ, 0.12),
+      special: () => pick(KALOZ_LINES), specialP: 0.08, emoji: L('🏴‍☠️|🦜|⚓|🗺️|💰|🌊|⛵') },
+    { id: 'streetfood', name: 'Street Food Ipsum', icon: '🌮',
+      desc: 'Taco, kebab, bao és egy food truck előtti sor éjfélkor.',
+      opener: 'Street food ipsum taco sit amet, kebab adipiscing elit.', word: mixer(STREETFOOD, 0.12),
+      emoji: L('🌮|🌯|🍔|🍟|🥙|🍜|🌭|🧋') },
+    { id: 'meeting', name: 'Meeting Ipsum', icon: '💼',
+      desc: 'Szinergia, KPI és egy meeting, ami lehetett volna egy e-mail.',
+      opener: 'Synergy ipsum KPI sit amet, holistic roadmap elit.', word: mixer(MEETING, 0.10),
+      special: () => pick(MEETING_LINES), specialP: 0.08, emoji: L('💼|📊|📈|☕|📅|🚀|✅') },
+  ];
+
+  /* ---------- szöveg-összerakás ---------- */
+  function buildSentence(g, emo) {
+    const [a, b] = g.len || [5, 13];
+    const n = between(a, b);
+    const ws = [];
+    while (ws.length < n) {
+      let w = g.word();
+      if (w === ws[ws.length - 1]) w = g.word();
+      ws.push(w);
+    }
+    let s = '';
+    ws.forEach((w, i) => {
+      s += w;
+      if (i === n - 1) return;
+      if (emo && chance(0.07)) s += ' ' + pick(g.emoji);
+      s += (i > 1 && i < n - 2 && chance(0.12)) ? ', ' : ' ';
+    });
+    return cap(s) + (chance(0.07) ? '!' : chance(0.06) ? '?' : '.');
+  }
+
+  function sentence(g, emo) {
+    let s = g.sentence ? g.sentence()
+      : (g.special && chance(g.specialP)) ? g.special()
+      : buildSentence(g, emo);
+    if (emo && chance(0.3)) s += ' ' + pick(g.emoji);
+    return s;
+  }
+
+  function paragraph(g, emo, withOpener) {
+    const [a, b] = g.para || [3, 6];
+    const k = between(a, b);
+    const ss = [];
+    for (let i = 0; i < k; i++) ss.push(i === 0 && withOpener ? g.opener : sentence(g, emo));
+    return ss.join(' ');
+  }
+
+  function wordList(g, n, withOpener) {
+    if (g.words) return g.words(n, withOpener);
+    const out = withOpener ? g.opener.replace(/[.,!?]/g, '').split(/\s+/) : [];
+    while (out.length < n) {
+      const w = g.word();
+      if (w !== out[out.length - 1]) out.push(...w.split(' '));
+    }
+    return out.slice(0, n);
+  }
+
+  function wordText(g, n, withOpener, emo) {
+    const ws = wordList(g, n, withOpener);
+    const s = ws.map((w, i) => (emo && !g.symmetric && i > 0 && chance(0.07)) ? pick(g.emoji) + ' ' + w : w).join(' ');
+    return cap(s) + '.' + (emo ? ' ' + pick(g.emoji) : '');
+  }
+
+  // Levágja a szöveg végéről a vesszőt, szóközt és a betű nélküli (emoji) tokeneket.
+  function trimTail(s) {
+    for (;;) {
+      const t = s.replace(/[\s,;:]+$/u, '');
+      const m = t.match(/(?:^|\s)(\S+)$/u);
+      if (m && !/[\p{L}\p{N}]/u.test(m[1]) && t.length > m[1].length) {
+        s = t.slice(0, t.length - m[1].length);
+        continue;
+      }
+      return t;
+    }
+  }
+
+  // Legfeljebb n karakter (szóközökkel együtt), szóhatáron vágva, ponttal lezárva.
+  function fitChars(text, n) {
+    const gl = glyphs(text);
+    if (gl.length <= n) return text;
+    if (n < 2) return gl.slice(0, n).join('');
+    let cut = gl.slice(0, n).join('');
+    if (!/\s/.test(gl[n])) {                         // szó közepén vágtunk -> vissza az előző szóközig
+      const i = Math.max(cut.lastIndexOf(' '), cut.lastIndexOf('\n'));
+      if (i > 0) cut = cut.slice(0, i);
+    }
+    cut = trimTail(cut);
+    if (!/[.!?]$/.test(cut)) {
+      while (charLen(cut) + 1 > n) {                 // kell hely a pontnak
+        const i = Math.max(cut.lastIndexOf(' '), cut.lastIndexOf('\n'));
+        if (i <= 0) { cut = glyphs(cut).slice(0, n - 1).join(''); break; }
+        cut = trimTail(cut.slice(0, i));
+      }
+      cut += '.';
+    }
+    return cut;
+  }
+
+  function charText(g, n, withOpener, emo) {
+    const paras = [];
+    let len = 0;
+    while (len < n) {
+      const p = paragraph(g, emo, withOpener && paras.length === 0);
+      len += charLen(p) + (paras.length ? 2 : 0);
+      paras.push(p);
+    }
+    return fitChars(paras.join('\n\n'), n);
+  }
+
+  /* ---------- állapot + UI ---------- */
+  const LIMITS = { p: [1, 50], s: [1, 200], w: [1, 2000], c: [1, 50000] };
+  const counts = { p: 3, s: 5, w: 50, c: 300 };
+  let unit = 'p';
+  let current = GENERATORS[0];
+  let output = '';
+
+  const tabsEl = $('#tabs'), countEl = $('#count'), outEl = $('#out');
+  const openerEl = $('#opener'), emojiEl = $('#emoji'), htmlEl = $('#html');
+  const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  $('#sub').textContent = `🦄 zagyva szöveggenerátor · ${GENERATORS.length} féle ipsum`;
+
+  GENERATORS.forEach(g => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'tab';
+    b.dataset.id = g.id;
+    b.innerHTML = `<span class="ti" aria-hidden="true">${g.icon}</span>${g.name}`;
+    b.addEventListener('click', () => select(g.id, true));
+    tabsEl.append(b);
+  });
+
+  function readCount() {
+    const [min, max] = LIMITS[unit];
+    let v = parseInt(countEl.value, 10);
+    if (!Number.isFinite(v)) return counts[unit];
+    v = Math.min(max, Math.max(min, v));
+    counts[unit] = v;
+    return v;
+  }
+
+  function render() {
+    const g = current, n = readCount();
+    const op = openerEl.checked, emo = emojiEl.checked, asHtml = htmlEl.checked;
+    let paras;
+    if (unit === 'p') {
+      paras = [];
+      for (let i = 0; i < n; i++) paras.push(paragraph(g, emo, op && i === 0));
+    } else if (unit === 's') {
+      const ss = [];
+      for (let i = 0; i < n; i++) ss.push(i === 0 && op ? g.opener : sentence(g, emo));
+      paras = [ss.join(' ')];
+    } else if (unit === 'w') {
+      paras = [wordText(g, n, op, emo)];
+    } else {
+      paras = charText(g, n, op, emo).split('\n\n');
+    }
+
+    const plain = paras.join('\n\n');
+    output = asHtml ? paras.map(p => `<p>${esc(p)}</p>`).join('\n') : plain;
+    outEl.textContent = output;
+    outEl.classList.toggle('code', asHtml);
+
+    const fmt = x => x.toLocaleString('hu-HU');
+    const wc = plain.split(/\s+/).filter(t => /[\p{L}\p{N}]/u.test(t)).length;
+    const cc = charLen(plain);
+    $('#stats').textContent = unit === 'c'
+      ? `${fmt(wc)} szó · ${fmt(cc)} / ${fmt(n)} karakter`
+      : `${fmt(wc)} szó · ${fmt(cc)} karakter`;
+    $('#hint').textContent = unit === 'c'
+      ? 'legfeljebb ennyi, szóközökkel együtt' + (asHtml ? ' (tagek nélkül)' : '')
+      : '';
+
+    if (ready && !reduceMotion && outEl.animate) outEl.animate([{ opacity: 0.35 }, { opacity: 1 }], { duration: 180 });
+  }
+  let ready = false;   // az első betöltéskor nincs áttűnés, a szöveg azonnal látszik
+
+  function setUnit(u) {
+    unit = u;
+    countEl.max = LIMITS[u][1];
+    countEl.value = counts[u];
+    document.querySelectorAll('#units button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.unit === u)));
+    render();
+  }
+
+  function select(id, updateUrl) {
+    current = GENERATORS.find(g => g.id === id) || GENERATORS[0];
+    tabsEl.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === current.id)));
+    $('#desc').textContent = current.desc;
+    const firstTwo = current.opener.split(/\s+/).slice(0, 2).join(' ').replace(/[.,!?]+$/, '');
+    $('#openerLabel').textContent = `Kezdés: „${firstTwo}…”`;
+    if (updateUrl) {
+      const url = current.id === 'rika' ? location.pathname + location.search : '#' + current.id;
+      try { history.replaceState(null, '', url); } catch (e) { /* file:// esetén is ok */ }
+    }
+    render();
+  }
+
+  let copyTimer;
+  function flash(msg) {
+    const btn = $('#copy');
+    btn.textContent = msg;
+    clearTimeout(copyTimer);
+    copyTimer = setTimeout(() => { btn.textContent = 'Másolás'; }, 1800);
+  }
+  function selectOutput() {
+    const range = document.createRange();
+    range.selectNodeContents(outEl);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+  function copy() {
+    const fallback = () => {
+      let ok = false;
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = output;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.append(ta);
+        ta.select();
+        ok = document.execCommand('copy');
+        ta.remove();
+      } catch (e) { ok = false; }
+      if (ok) flash('Másolva ✓');
+      else { selectOutput(); flash('Kijelölve, Ctrl+C'); }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(output).then(() => flash('Másolva ✓'), fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  document.querySelectorAll('#units button').forEach(b => b.addEventListener('click', () => setUnit(b.dataset.unit)));
+  countEl.addEventListener('input', render);
+  countEl.addEventListener('change', () => { countEl.value = readCount(); });
+  countEl.addEventListener('keydown', e => { if (e.key === 'Enter') render(); });
+  [openerEl, emojiEl, htmlEl].forEach(el => el.addEventListener('change', render));
+  $('#gen').addEventListener('click', render);
+  $('#copy').addEventListener('click', copy);
+  window.addEventListener('hashchange', () => select(location.hash.slice(1), false));
+
+  // Mindig a Rika Ipsum nyílik meg, hacsak a link nem kér mást (pl. #marvel).
+  unit = 'p';
+  countEl.max = LIMITS.p[1];
+  document.querySelectorAll('#units button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.unit === 'p')));
+  select(location.hash.slice(1) || 'rika', false);
+  ready = true;
+})();
+</script>
+</body>
+</html>
