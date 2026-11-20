@@ -308,12 +308,18 @@
     'Aquaman|Atlantis|Flash|Barry Allen|Speed Force|Green Lantern|power ring|Cyborg|Shazam|Martian Manhunter|' +
     'Justice League|Darkseid|Apokolips|cape|bat|rooftop|midnight|superhero|Hall of Justice|Watchtower');
   const DC_LINES = ["I'm Batman.", 'Shazam!', 'Up, up and away!', 'Why so serious?', 'To the Batmobile!'];
+  const HEROES = MARVEL.concat(DC);
+  const HERO_LINES = MARVEL_LINES.concat(DC_LINES);
 
   const MEOW = L('meow|miaow|mew|mrrp|prrr|purr|purring|kitty|kitten|cat|paw|toe beans|whiskers|box|couch|sunbeam|' +
     'nap|catnap|snooze|catnip|zoomies|ears|tail|scratching post|yarn|yarn ball|tuna|fluff|fluffy|soft|fur|tomcat|tabby|' +
     'stretch|yawn|head boop|windowsill|bird watching|food bowl|4 am|knocks the glass off|keyboard|laptop|knead|' +
     'biscuits|hiss|tummy|belly rub|trap|loaf|blep|mlem|chonk|floof|slow blink');
-  const MEOW_LINES = ['Was it a cat I saw?', 'Taco cat.', 'Mrrp?', 'Mew.', 'Prrrrrr.', 'Meow meow meow!'];
+  const MEOW_LINES = ['Was it a cat I saw?', 'Taco cat.', 'Mrrp?', 'Mew.', 'Prrrrrr.', 'Meow meow meow!', 'Meow? Meow.'];
+  const CATS = L('Sura|Natasa|Kira|Luna|Momo|Szind');
+  const MEOW_SOUNDS = L('meow|meow|meow|meow|meow|meeow|meooow|miaow|mew|mrrp|mrow|purr|prrr');
+  const CAT_LINES = [n => `${n}, no!`, n => `${n} says meow.`, n => `Where is ${n}?`, n => `${n} is in the box.`,
+    n => `${n} wants breakfast at 4 am.`, n => `${n} knocked it off the table.`];
 
   const CSILLAM = L('glitter|sparkle|shimmer|glimmer|twinkle|unicorn|rainbow|sun|moon|stars|starlight|stardust|' +
     'moonbeam|sunbeam|blue|opal|pearl|aurora|comet|galaxy|nebula|pastel|fairy|fairy dust|magic|dream|glow|gleam|shine|' +
@@ -326,6 +332,8 @@
     'plum|purple|magenta|fuchsia|mauve|burgundy|maroon|ochre|sienna|ivory|pearl|silver');
   const RAINBOW_LINES = ['Red, orange, yellow, green, blue, indigo, violet.', 'Roy G. Biv says hi.', 'Double rainbow!',
     'All the colors, all at once.', 'After the rain, the rainbow.'];
+  const UNICORN = [...new Set(CSILLAM.concat(RAINBOW))];
+  const UNICORN_LINES = RAINBOW_LINES.concat('Rats live on no evil star.');
 
   const MAZSOLA = L('mazsola|raisin|raisins|sun-dried|dried grape|grape|sultana|golden raisin|currant|cinnamon|' +
     'sweet|wrinkly|handful|oatmeal|muesli|granola|cookie|bun|brioche|fig|date|rum-raisin|pudding|vanilla|walnut|almond|' +
@@ -352,8 +360,59 @@
   const MEETING_LINES = ["Let's take this offline.", 'This could have been an email.', "Let's circle back.",
     "Great question, I'll follow up.", 'Can you see my screen?', 'Sorry, I was on mute.'];
 
+  const MEME = L('doge|stonks|bonk|yeet|sus|oof|bruh|big brain|galaxy brain|vibe check|rizz|no cap|slay|' +
+    'touch grass|ratio|delulu|rent free|main character|NPC|based|cringe|wholesome|chonk|smol|heckin|doggo|pupper|' +
+    'noice|epic|epic fail|facepalm|mic drop|plot twist|lowkey|highkey|it\'s giving|caught in 4K|skill issue|' +
+    'let him cook|copium|big mood|same energy|this is fine|to the moon|press F|nyan cat|rickroll|' +
+    'distracted boyfriend|grumpy cat|success kid|hold my beer|ok boomer|lol|lmao|rofl|IRL|TL;DR|FOMO|YOLO|' +
+    'meme|wow|such|much|very|many');
+  const MEME_LINES = ['This is fine.', 'One does not simply lorem ipsum.', "It's over 9000!",
+    'All your base are belong to us.', 'I can has cheezburger?', 'Shut up and take my money!',
+    "Ain't nobody got time for that.", 'Why not both?', 'Task failed successfully.', 'Hold my beer.',
+    'Change my mind.', 'Instructions unclear.', 'Press F to pay respects.', 'Keep calm and ipsum on.',
+    'Y U NO lorem?', 'Not sure if ipsum or just lorem.', 'Is this a lorem?', 'Stonks.', 'Big if true.',
+    'Nailed it.', 'Much wow.', 'It be like that sometimes.'];
+  const DOGE = L('ipsum|lorem|dolor|amet|text|words|meme|vibes|font|layout|pixel|content|scroll|copy');
+
+  const NUM_WORDS = L('zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|twenty|' +
+    'fifty|hundred|thousand|million|billion|dozen|half|double|triple|plus|minus|times|equals|prime|odd|even|' +
+    'pi|sum|count|digit|number|infinity');
+  const NUM_FAMOUS = L('42|7|13|3.14|2.718|1.618|0|1|100|404|1337|007|365|24/7|360|1024|101|99|1000|1,000,000');
+  const NUM_LINES = ['1, 2, 3, 4, 5.', '2 + 2 = 4.', '42 is the answer.', 'Error 404: ipsum not found.',
+    'One, two, three, go!', '3.14159265358979…', '1 + 1 = 10 in binary.', '7 × 6 = 42.', 'Counting sheep: 1, 2, 3…',
+    '10, 9, 8, 7, 6, 5, 4, 3, 2, 1, liftoff!'];
+
   /* ---------- szógenerátorok ---------- */
   const mixer = (list, fillP) => () => chance(fillP) ? pick(LATIN_FILL) : pick(list);
+
+  // Meow: sok nyávogás, a cicák nevei, kevés latin töltelék.
+  function meowWord() {
+    const r = Math.random();
+    if (r < 0.36) return pick(MEOW_SOUNDS);
+    if (r < 0.48) return pick(CATS);
+    if (r < 0.54) return pick(LATIN_FILL);
+    return pick(MEOW);
+  }
+  const meowSpecial = () => chance(0.5) ? pick(MEOW_LINES) : pick(CAT_LINES)(pick(CATS));
+
+  // Meme: mémszövegek és doge-mondatok ("Such ipsum. Much lorem. Very amet. Wow.").
+  function dogeLine() {
+    const ws = DOGE.slice().sort(() => Math.random() - 0.5);
+    return `Such ${ws[0]}. Much ${ws[1]}. Very ${ws[2]}. Wow.`;
+  }
+  const memeSpecial = () => chance(0.25) ? dogeLine() : pick(MEME_LINES);
+
+  // Szám: véletlen számok, híres számok, számnevek és egy kis latin.
+  function numWord() {
+    const r = Math.random();
+    if (r < 0.42) {
+      const n = between(0, pick([9, 99, 999, 9999]));
+      return chance(0.18) ? n + '.' + between(0, 99) : String(n);
+    }
+    if (r < 0.62) return pick(NUM_FAMOUS);
+    if (r < 0.88) return pick(NUM_WORDS);
+    return pick(LATIN_FILL);
+  }
 
   function rikaWord() {
     const r = Math.random();
@@ -369,8 +428,12 @@
     return cap(w) + ' ' + pick(L('level|radar|noon|civic|kayak|wow')) + ' ' + rev(w) + '.';
   }
 
+  // Családnevek, eleve visszafelé írva.
+  const FAMILY_REV = L('Irda|Ittol|Icram|Akire');
+
   // Visszafelé: a natasa kimarad, mert fordítva nem túl szerencsés ("asatan").
   function akirWord() {
+    if (chance(0.12)) return pick(FAMILY_REV);
     let w;
     do { w = rikaWord(); } while (w.startsWith('natas'));
     return rev(w);
@@ -402,30 +465,23 @@
       desc: 'A jó öreg, hagyományos lorem ipsum, ha komolynak kell látszani.',
       opener: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', word: () => pick(LOREM),
       emoji: L('📜|🏛️|✒️') },
-    { id: 'marvel', name: 'Marvel Ipsum', icon: '🦸',
-      desc: 'Vibránium, Wakanda és egy kis Groot. Excelsior!',
-      opener: 'Marvel ipsum vibranium sit amet, Wakanda adipiscing elit.', word: mixer(MARVEL, 0.18),
-      special: () => pick(MARVEL_LINES), specialP: 0.06, emoji: L('🦸|🛡️|⚡|🕷️|💎|🔨|🌌') },
-    { id: 'dc', name: 'DC Ipsum', icon: '🦇',
-      desc: 'Gotham éjszakái, kriptonit és egy denevér a háztetőn.',
-      opener: 'DC ipsum Gotham sit amet, kryptonite adipiscing elit.', word: mixer(DC, 0.18),
-      special: () => pick(DC_LINES), specialP: 0.06, emoji: L('🦇|🦸|⚡|🌃|💚|🃏|🌊') },
+    { id: 'superhero', name: 'Superhero Ipsum', icon: '🦸',
+      desc: 'Vibránium és kriptonit, Wakanda és Gotham: Marvel és DC egy tálban.',
+      opener: 'Superhero ipsum vibranium sit amet, kryptonite adipiscing elit.', word: mixer(HEROES, 0.18),
+      special: () => pick(HERO_LINES), specialP: 0.06, emoji: L('🦸|🛡️|⚡|🕷️|💎|🔨|🌌|🦇|🌃|💚|🃏|🌊') },
     { id: 'meow', name: 'Meow Ipsum', icon: '🐱',
-      desc: 'Dorombolás, napfolt, babtalpak és hajnali négykor zoomies.',
-      opener: 'Meow ipsum purr sit amet, whiskers adipiscing elit.', word: mixer(MEOW, 0.10), len: [4, 11],
-      special: () => pick(MEOW_LINES), specialP: 0.10, emoji: L('🐱|🐾|😺|🐈|🧶|🐟|😸') },
+      desc: 'Sura, Natasa, Kira, Luna, Momo és Szind: dorombolás, napfolt és hajnali négykor zoomies.',
+      opener: 'Meow ipsum meow sit amet, purr meow adipiscing elit.', word: meowWord, len: [4, 11],
+      special: meowSpecial, specialP: 0.12, emoji: L('🐱|🐾|😺|🐈|🧶|🐟|😸') },
     { id: 'palindrom', name: 'Palindrom Ipsum', icon: '🪞',
       desc: 'Minden mondat oda-vissza ugyanaz, betűre pontosan: „Noon rikakir noon.”',
       opener: 'Level rikakir noon rikakir level.', sentence: paliSentence, words: paliWords, para: [4, 7], symmetric: true,
       emoji: L('🪞|🔁|↔️') },
-    { id: 'csillam', name: 'Csillám Ipsum', icon: '✨',
-      desc: 'Nap, hold, csillagok, szivárvány és extra glitter.',
-      opener: 'Glitter ipsum sparkle sit amet, unicorn rainbow elit.', word: mixer(CSILLAM, 0.12),
-      special: () => 'Rats live on no evil star.', specialP: 0.03, emoji: L('✨|🌈|🦄|🌙|⭐|☀️|💫|🌟|💙|🪐') },
-    { id: 'rainbow', name: 'Rainbow Ipsum', icon: '🌈',
-      desc: 'Bíbor, türkiz, levendula: a szivárvány összes színe, névvel.',
-      opener: 'Rainbow ipsum red sit amet, orange yellow green blue indigo violet.', word: mixer(RAINBOW, 0.12),
-      special: () => pick(RAINBOW_LINES), specialP: 0.06, emoji: L('🌈|🎨|🖍️|🟥|🟧|🟨|🟩|🟦|🟪') },
+    { id: 'unikorn', name: 'Unikorn Ipsum', icon: '🌈',
+      desc: 'Csillám, csillagpor és a szivárvány összes színe, névvel.',
+      opener: 'Unikorn ipsum glitter sit amet, red orange yellow green blue indigo violet.', word: mixer(UNICORN, 0.12),
+      special: () => pick(UNICORN_LINES), specialP: 0.06,
+      emoji: L('🦄|🌈|✨|🌙|⭐|☀️|💫|🌟|💙|🪐|🎨|🖍️') },
     { id: 'mazsola', name: 'Mazsola Ipsum', icon: '🍇',
       desc: 'Napon aszalt raisin-szöveg mazsolarajongóknak.',
       opener: 'Mazsola ipsum raisin sit amet, sun-dried cinnamon elit.', word: mixer(MAZSOLA, 0.15),
@@ -446,6 +502,14 @@
       desc: 'Szinergia, KPI és egy meeting, ami lehetett volna egy e-mail.',
       opener: 'Synergy ipsum KPI sit amet, holistic roadmap elit.', word: mixer(MEETING, 0.10),
       special: () => pick(MEETING_LINES), specialP: 0.08, emoji: L('💼|📊|📈|☕|📅|🚀|✅') },
+    { id: 'meme', name: 'Meme Ipsum', icon: '😂',
+      desc: 'This is fine, stonks és much wow: az internet mémszövegei egy tálban.',
+      opener: 'Meme ipsum such wow, much dolor very amet.', word: mixer(MEME, 0.10),
+      special: memeSpecial, specialP: 0.30, emoji: L('😂|🤣|💀|🔥|🐶|📈|🤡|😎|🫠|👀|💯') },
+    { id: 'szam', name: 'Szám Ipsum', icon: '🔢',
+      desc: 'Számok mindenhol: 42, 3.14, 404 és egy kis visszaszámlálás.',
+      opener: 'Szám ipsum 42 sit amet, 3.14 adipiscing 1337.', word: numWord,
+      special: () => pick(NUM_LINES), specialP: 0.08, emoji: L('🔢|➕|➖|✖️|➗|🟰|💯|🧮') },
   ];
 
   /* ---------- szöveg-összerakás ---------- */
@@ -622,7 +686,11 @@
     render();
   }
 
+  // Régi linkek (#marvel, #dc, #csillam, #rainbow) az összevont ipsumokra mutatnak.
+  const ALIASES = { marvel: 'superhero', dc: 'superhero', csillam: 'unikorn', rainbow: 'unikorn' };
+
   function select(id, updateUrl) {
+    if (ALIASES[id]) { id = ALIASES[id]; updateUrl = true; }
     current = GENERATORS.find(g => g.id === id) || GENERATORS[0];
     tabsEl.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === current.id)));
     $('#desc').textContent = current.desc;
