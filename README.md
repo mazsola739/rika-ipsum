@@ -10,3 +10,7 @@ Zagyva szöveggenerátor 13 féle ipsummal: Rika, Lorem, Superhero, Meow, Palind
 - egyetlen `index.html`, nincs build és nincs függőség
 
 Készült 2021-ben, felújítva 2026-ban.
+
+## Licenc
+
+[MIT](LICENSE)
