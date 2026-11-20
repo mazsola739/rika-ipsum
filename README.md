@@ -1,6 +1,6 @@
 # Rika Ipsum 🦄🌈
 
-Zagyva szöveggenerátor 12 féle ipsummal: Rika, Lorem, Marvel, DC, Meow, Palindrom, Csillám, Mazsola, Akir Muspi, Kalóz, Street Food és Meeting Ipsum.
+Zagyva szöveggenerátor 13 féle ipsummal: Rika, Lorem, Marvel, DC, Meow, Palindrom, Csillám, Rainbow, Mazsola, Akir Muspi, Kalóz, Street Food és Meeting Ipsum.
 
 **Élő oldal:** https://mazsola739.github.io/rika-ipsum/
 

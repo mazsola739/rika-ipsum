@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦄</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #faf7ff;
@@ -18,6 +18,7 @@
     --muted: #6b6385;
     --border: #e7e0f3;
     --accent: #7446f0;
+    --accent-hover: #6234dc;
     --on-accent: #ffffff;
     --accent-soft: #efe8ff;
     --glow-1: rgba(255, 140, 200, .20);
@@ -32,7 +33,6 @@
     --r5: #3fa9f5;
     --r6: #8b5cf6;
     --rainbow: linear-gradient(90deg, var(--r1), var(--r2), var(--r3), var(--r4), var(--r5), var(--r6));
-    --on-rainbow: #1d1530;
     --selection: rgba(255, 210, 63, .45);
     color-scheme: light;
   }
@@ -45,6 +45,7 @@
       --muted: #a59fbd;
       --border: #322b4a;
       --accent: #b49cff;
+      --accent-hover: #c7b5ff;
       --on-accent: #1a1430;
       --accent-soft: #2e2650;
       --glow-1: rgba(255, 110, 190, .10);
@@ -63,6 +64,7 @@
     --muted: #a59fbd;
     --border: #322b4a;
     --accent: #b49cff;
+    --accent-hover: #c7b5ff;
     --on-accent: #1a1430;
     --accent-soft: #2e2650;
     --glow-1: rgba(255, 110, 190, .10);
@@ -95,20 +97,18 @@
 
   /* Header */
   .head { text-align: center; margin-bottom: 26px; }
+  .mark { display: block; width: 44px; height: 24px; margin: 0 auto 14px; color: var(--accent); }
   .brand {
     margin: 0;
-    font-family: "Fredoka", ui-rounded, "Segoe UI", system-ui, sans-serif;
-    font-weight: 600;
-    font-size: clamp(46px, 10vw, 80px);
-    line-height: 1.05;
-    letter-spacing: -0.01em;
-    padding-bottom: 4px;
-    background: linear-gradient(90deg, #ff4f9a, #ff8a3d 20%, #f2b705 38%, #22b573 58%, #2f9bf0 78%, #8b5cf6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-family: "Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: clamp(38px, 7.5vw, 58px);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    color: var(--text);
   }
-  .sub { margin: 6px 0 0; color: var(--muted); font-size: 17px; }
+  .brand span { color: var(--accent); }
+  .sub { margin: 8px 0 0; color: var(--muted); font-size: 16px; }
 
   /* Generator tabs */
   .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
@@ -164,11 +164,10 @@
   }
   .btn:hover { border-color: var(--accent); }
   .btn.primary {
-    border: 0; color: var(--on-rainbow); font-weight: 700;
-    background: linear-gradient(90deg, var(--r1), var(--r2), var(--r3), var(--r4), var(--r5), var(--r6), var(--r1)) 0 0 / 200% 100%;
-    transition: background-position .6s ease;
+    border-color: var(--accent); background: var(--accent); color: var(--on-accent);
+    transition: background-color .15s, border-color .15s;
   }
-  .btn.primary:hover { background-position: 100% 0; }
+  .btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
 
   .opts { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); gap: 8px 22px; color: var(--muted); font-size: 15px; }
   .opts label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
@@ -178,18 +177,9 @@
 
   /* Output */
   .result { margin-top: 16px; overflow: hidden; }
-  .result::before { content: ""; display: block; height: 5px; background: var(--rainbow); }
 
-  /* Szivárvány díszek */
-  .topbar { height: 6px; background: var(--rainbow); }
-  .arc {
-    width: 104px; height: 52px; margin: 0 auto 10px;
-    background: radial-gradient(circle 52px at 50% 100%,
-      transparent 41.5%,
-      var(--r6) 42.5% 51.2%, var(--r5) 52.2% 60.9%, var(--r4) 61.9% 70.6%,
-      var(--r3) 71.6% 80.3%, var(--r2) 81.3% 90%, var(--r1) 91% 98.5%,
-      transparent 99.5%);
-  }
+  /* Egyetlen vékony szivárványcsík a lap tetején */
+  .topbar { height: 3px; background: var(--rainbow); }
   ::selection { background: var(--selection); }
   @media (prefers-reduced-motion: reduce) { .btn.primary { transition: none; } }
   .output {
@@ -206,7 +196,6 @@
     font-size: 14px; font-variant-numeric: tabular-nums;
   }
   .credit { display: grid; gap: 4px; text-align: center; color: var(--muted); font-size: 14px; margin-top: 28px; }
-  .credit::before { content: ""; justify-self: center; width: 72px; height: 4px; margin-bottom: 8px; border-radius: 4px; background: var(--rainbow); }
   .credit p { margin: 0; }
   .credit a { color: var(--accent); font-weight: 600; text-decoration: none; }
   .credit a:hover { text-decoration: underline; }
@@ -229,9 +218,13 @@
 <div class="topbar" aria-hidden="true"></div>
 <div class="wrap" lang="hu">
   <header class="head">
-    <div class="arc" aria-hidden="true"></div>
-    <h1 class="brand">Rika Ipsum</h1>
-    <p class="sub" id="sub">🦄 zagyva szöveggenerátor</p>
+    <svg class="mark" viewBox="0 0 44 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+      <path d="M4 22a18 18 0 0 1 36 0"/>
+      <path d="M10 22a12 12 0 0 1 24 0" opacity=".55"/>
+      <path d="M16 22a6 6 0 0 1 12 0" opacity=".25"/>
+    </svg>
+    <h1 class="brand">Rika <span>Ipsum</span></h1>
+    <p class="sub" id="sub">zagyva szöveggenerátor</p>
   </header>
 
   <nav class="tabs" id="tabs" aria-label="Generátorok"></nav>
@@ -332,6 +325,14 @@
     'moonbeam|sunbeam|blue|opal|pearl|aurora|comet|galaxy|nebula|pastel|fairy|fairy dust|magic|dream|glow|gleam|shine|' +
     'sparkly|dreamy|cosmic|moonstone|mermaid|cloud|marshmallow|cotton candy|pink|lilac|holographic|iridescent|sequin');
 
+  const RAINBOW = L('red|orange|yellow|green|blue|indigo|violet|crimson|scarlet|cherry|ruby|vermilion|coral|salmon|' +
+    'rose|pink|hot pink|blush|peach|apricot|tangerine|amber|saffron|gold|honey|mustard|lemon|butter yellow|canary|' +
+    'chartreuse|lime|pistachio|mint|sage|olive|emerald|jade|forest green|seafoam|teal|turquoise|aqua|cyan|azure|' +
+    'sky blue|cornflower|cerulean|cobalt|sapphire|navy|ultramarine|periwinkle|lavender|lilac|orchid|amethyst|' +
+    'plum|purple|magenta|fuchsia|mauve|burgundy|maroon|ochre|sienna|ivory|pearl|silver');
+  const RAINBOW_LINES = ['Red, orange, yellow, green, blue, indigo, violet.', 'Roy G. Biv says hi.', 'Double rainbow!',
+    'All the colors, all at once.', 'After the rain, the rainbow.'];
+
   const MAZSOLA = L('mazsola|raisin|raisins|sun-dried|dried grape|grape|sultana|golden raisin|currant|cinnamon|' +
     'sweet|wrinkly|handful|oatmeal|muesli|granola|cookie|bun|brioche|fig|date|rum-raisin|pudding|vanilla|walnut|almond|' +
     'pinch|snack|scone|fruitcake|trail mix|bread pudding|cinnamon roll|cereal|breakfast|plump|chewy|sunshine|vineyard');
@@ -427,6 +428,10 @@
       desc: 'Nap, hold, csillagok, szivárvány és extra glitter.',
       opener: 'Glitter ipsum sparkle sit amet, unicorn rainbow elit.', word: mixer(CSILLAM, 0.12),
       special: () => 'Rats live on no evil star.', specialP: 0.03, emoji: L('✨|🌈|🦄|🌙|⭐|☀️|💫|🌟|💙|🪐') },
+    { id: 'rainbow', name: 'Rainbow Ipsum', icon: '🌈',
+      desc: 'Bíbor, türkiz, levendula: a szivárvány összes színe, névvel.',
+      opener: 'Rainbow ipsum red sit amet, orange yellow green blue indigo violet.', word: mixer(RAINBOW, 0.12),
+      special: () => pick(RAINBOW_LINES), specialP: 0.06, emoji: L('🌈|🎨|🖍️|🟥|🟧|🟨|🟩|🟦|🟪') },
     { id: 'mazsola', name: 'Mazsola Ipsum', icon: '🍇',
       desc: 'Napon aszalt raisin-szöveg mazsolarajongóknak.',
       opener: 'Mazsola ipsum raisin sit amet, sun-dried cinnamon elit.', word: mixer(MAZSOLA, 0.15),
@@ -558,7 +563,7 @@
   const openerEl = $('#opener'), emojiEl = $('#emoji'), htmlEl = $('#html');
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  $('#sub').textContent = `🦄 zagyva szöveggenerátor · ${GENERATORS.length} féle ipsum`;
+  $('#sub').textContent = `zagyva szöveggenerátor · ${GENERATORS.length} féle ipsum`;
 
   GENERATORS.forEach(g => {
     const b = document.createElement('button');
